@@ -21,14 +21,15 @@ toc: true
 
 ## 介绍
 
-Jenkins X is an open-source project and lives by the work of its [contributors][]. There are plenty of [open issues][issues], and we need your help to make Jenkins X even more awesome. You don't need to be a Go guru to contribute to the project's development.
+Jenkins X 是由众多[开发者][contributors]开发的开源项目. 还有很多[尚未解决的问题][issues], 我们需要你的帮助来使Jenkins X变得更棒. 即使你不是一个Go语言的专家， 也可以对项目的开发贡献力量。
+
 
 ## 假设
 
-This contribution guide takes a step-by-step approach in hopes of helping newcomers. Therefore, we only assume the following:
+本篇指导文档将帮助你逐步熟悉它，因此我们假定：
 
-* You are new to Git or open-source projects in general
-* You are a fan of Jenkins X and enthusiastic about contributing to the project
+* 你是刚刚接触Git或者开源项目
+* 你是Jenkins X的爱好者并乐于对项目的发展贡献力量
 
 {{% note "Additional Questions?" %}}
 If you're struggling at any point in this contribution guide, reach out to the Jenkins X community in [Jenkins X's Discussion forum](https://jenkins-x.io/community/).
@@ -36,29 +37,29 @@ If you're struggling at any point in this contribution guide, reach out to the J
 
 ## 安装 Go
 
-The installation of Go should take only a few minutes. You have more than one option to get Go up and running on your machine.
+Go语言环境的安装仅需要几分钟. 并且多种方式可供选择
 
-If you are having trouble following the installation guides for go, check out [Go Bootcamp, which contains setups for every platform][gobootcamp] or reach out to the Jenkins X community in the [Jenkins X Discussion Forums][forums].
+如果在安装过程当中遇到问题，请查阅 [Go Bootcamp, which contains setups for every platform][gobootcamp] 或者向Jenkins X[论坛][forums]中寻求帮助
+
 
 ### 从源码安装 Go
 
-[Download the latest stable version of Go][godl] and follow the official [Golang installation guide][goinstall].
+[下载最新版Go源码][godl] 并通过官方[安装文档][goinstall]进行安装.
 
-Once you're finished installing Go, let's confirm everything is working correctly. Open a terminal---or command line under Windows--and type the following:
+安装完成后，确认是否一切工作正常. 打开一个新的终端或者在Windows上的命令行并输入:
 
 ```
 go version
 ```
 
-You should see something similar to the following written to the console. Note that the version here reflects the most recent version of Go as of the last update for this page:
+在终端的窗口上可以看到类似如下的信息. 注意`version`表示的是在在更新此文档时最新的Go的版本信息:
 
 ```
 go version go1.8 darwin/amd64
 ```
 
-Next, make sure that you set up your `GOPATH` [as described in the installation guide][setupgopath].
-
-You can print the `GOPATH` with `echo $GOPATH`. You should see a non-empty string containing a valid path to your Go workspace; .e.g.:
+下一步，确保[根据安装文档][setupgopath] 设置了 `GOPATH` 环境变量。
+通过 `echo $GOPATH` 输出 `GOPATH`. 应该是指向了你的合法的Go的工作目录的非空字符串, 如:
 
 ```
 /Users/<yourusername>/Code/go
@@ -66,7 +67,7 @@ You can print the `GOPATH` with `echo $GOPATH`. You should see a non-empty strin
 
 ### 使用 Homebrew 安装 Go
 
-If you are a macOS user and have [Homebrew](https://brew.sh/) installed on your machine, installing Go is as simple as the following command:
+如果你是MacOS用户并且安装了[Homebrew](https://brew.sh/), 安装过程将会很简单, 在终端中执行以下命令:
 
 {{< code file="install-go.sh" >}}
 brew install go
@@ -74,25 +75,24 @@ brew install go
 
 ### 通过 GVM 安装 GO
 
-More experienced users can use the [Go Version Manager][gvm] (GVM). GVM allows you to switch between different Go versions *on the same machine*. If you're a beginner, you probably don't need this feature. However, GVM makes it easy to upgrade to a new released Go version with just a few commands.
+更多有经验的用户使用[Go Version Manager][gvm] (GVM), GVM 允许你在`同一台机器上`安装并切换使用多种版本的GO语言环境. 如果你是初学者，可能不太需要这个功能. 然而, GVM 通过几条命令使得Go环境的更新变得很简。
 
-GVM comes in especially handy if you follow the development of Jenkins X over a longer period of time. Future versions of Jenkins X will usually be compiled with the latest version of Go. Sooner or later, you will have to upgrade if you want to keep up.
+在开发Jenkins X很长一段时间后，GVM使用起来将会特别的方便. Jenkins X之后的版本将会用最新版版的Go语言进行编译，因此如果想与社区开发同步的话，将会需要更新Go环境。
 
 ## 创建一个 GitHub 账号
 
-If you're going to contribute code, you'll need to have an account on GitHub. Go to [www.github.com/join](https://github.com/join) and set up a personal account.
+如果你想要贡献代码的话，需要创建一个Github账号. 登录 [www.github.com/join](https://github.com/join)注册个人账号。
 
 ## 在你的系统上安装 Git
+Jenkins X 开发过程当中需要在本机安装Git 客户端。Git 的使用学习不包含在 Jenkins X 的文档中， 如果你不确定从哪里开始的话，我们推荐通过[Git book][gitbook]学习使用Git的基本知识。 使用的词汇将会通过注解进行解释。
 
-You will need to have Git installed on your computer to contribute to Jenkins X development. Teaching git is outside the scope of the Jenkins X docs, but if you're looking for an excellent reference to learn the basics of Git, we recommend the [Git book][gitbook] if you are not sure where to begin. The used terminology will be explained with annotations.
+Git 是一个[版本控制系统](https://en.wikipedia.org/wiki/Version_control), 用于记录源代码的变化。 为了不重复造轮子，Jenkins X 使用了第三方的软件包来扩展功能。
 
-Git is a [version control system](https://en.wikipedia.org/wiki/Version_control) to track the changes of source code. Jenkins X depends on smaller third-party packages that are used to extend the functionality. We use them because we don't want to reinvent the wheel.
+Go 提供了`get`的命令来帮助下载软件包以配置工作环境。这些软件包的源码信息在Git中记录。 `get` 会与承载这些软件包的Git服务器端进行交互来下载所有的依赖。
 
-Go ships with a sub-command called `get` that will download these packages for us when we setup our working environment. The source code of the packages is tracked with Git. `get` will interact with the Git servers of the package hosters in order to fetch all dependencies.
+回到终端中，输入`git version` 并按回车，检验是否安装Git。 如果返回的是一个版本号信息，那么可以跳过下面的配置。否则的话[下载](https://git-scm.com/downloads)最新版的Git并根据[安装文档](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)进行安装。
 
-Move back to the terminal and check if Git is already installed. Type in `git version` and press enter. You can skip the rest of this section if the command returned a version number. Otherwise [download](https://git-scm.com/downloads) the lastest version of Git and follow this [installation guide](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
-
-Finally, check again with `git version` if Git was installed successfully.
+最后，再一次输入`git version`检验Git是否安装成功。
 
 ### Git 图形化前端
 
